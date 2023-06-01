@@ -1,22 +1,24 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { RandomFox } from "../components/RandomFox";
+import { LazyImage } from "../components/LazyImage";
 import { MouseEventHandler, useState } from "react";
 
-const random = (): number => Math.floor(Math.random()*123)+1
-const generateId = () => Math.random().toString(36).substring(2,9)
+const random = (): number => Math.floor(Math.random() * 123) + 1;
+const generateId = () => Math.random().toString(36).substring(2, 9);
 
-type ImageItems = { id: string, url: string };
+type ImageItems = { id: string; url: string };
 
 const Home: NextPage = () => {
-
   const [images, setImages] = useState<Array<ImageItems>>([]);
 
   const addNewFox: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.preventDefault();
-    const newImageItem: ImageItems = { id: generateId(), url:`https://randomfox.ca/images/${random()}.jpg` };
-    setImages([...images, newImageItem])
-  }
+    const newImageItem: ImageItems = {
+      id: generateId(),
+      url: `https://randomfox.ca/images/${random()}.jpg`,
+    };
+    setImages([...images, newImageItem]);
+  };
 
   return (
     <div>
@@ -29,13 +31,16 @@ const Home: NextPage = () => {
       <main>
         <h1 className="text-3xl font-bold underline">Hey Platzi 😎!</h1>
         <button onClick={addNewFox}>Add new fox</button>
-        {
-          images.map( ({ id, url }) => (
-            <div key={id} className="p-4">
-              <RandomFox image={url} />
-            </div>
-        ))
-        }
+        {images.map(({ id, url }) => (
+          <div key={id} className="p-4">
+            <LazyImage
+              src={url}
+              width={320}
+              height="auto"
+              className="rounded bg-gray-300"
+            />
+          </div>
+        ))}
       </main>
 
       <footer></footer>
